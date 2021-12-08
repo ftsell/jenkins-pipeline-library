@@ -43,8 +43,8 @@ void call(String k8sBaseDir, String imageName, String imageDigest, String giteaC
                     usernameVariable: "GIT_USERNAME",
                     passwordVariable: "GIT_PASSWORD"
             )]) {
-                sh "git config --local user.email jenkins@finn-thorben.me"
-                sh "git config --local user.name Jenkins"
+                sh "git config --local user.email admin+jenkins@finn-thorben.me"
+                sh "git config --local user.name jenkins"
                 sh "git config --local credential.helper '!p() { echo username=\\$GIT_USERNAME; echo password=\\$GIT_PASSWORD; }; p'"
                 sh "git commit -a -m 'update ${k8sBaseDir} ${imageName} image version\n\nnew digest is ${imageDigest}'"
                 sh "git push origin main"
