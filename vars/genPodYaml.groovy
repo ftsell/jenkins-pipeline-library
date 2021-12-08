@@ -9,6 +9,9 @@ String call(boolean kustomizeKubeval, boolean podman) {
 kind: Pod
 spec:
   containers:
+    - name: jnlp
+      image: docker.io/jenkins/inbound-agent
+      args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
 """
     if (kustomizeKubeval) {
         result += """
