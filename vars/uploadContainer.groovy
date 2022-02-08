@@ -7,10 +7,11 @@
  * @param gitStatusWrapperCredentials The id for jenkins credentials that grant access to the current GitHub
  *  repository in order to set commit and PR status.
  *  If null, no status is set on GitHub.
+ * @param milestoneOrdinal The ordinal number that will be used for Jenkins milestone step
  */
-void call(String imageName, String registryBase, String registryCredentials = null, String gitStatusWrapperCredentials = null) {
+void call(String imageName, String registryBase, String registryCredentials = null, String gitStatusWrapperCredentials = null, int milestoneOrdinal = 100) {
     if (gitStatusWrapperCredentials == null) {
-        doUpload(imageName, registryBase, registryCredentials)
+        doUpload(imageName, registryBase, registryCredentials, milestoneOrdinal)
     } else {
         gitStatusWrapper(
                 credentialsId: gitStatusWrapperCredentials,
@@ -19,14 +20,14 @@ void call(String imageName, String registryBase, String registryCredentials = nu
                 successDescription: "Container image was uploaded",
                 gitHubContext: "upload-container-image"
         ) {
-            doUpload(imageName, registryBase, registryCredentials)
+            doUpload(imageName, registryBase, registryCredentials, milestoneOrdinal)
         }
     }
 }
 
 
-private void doUpload(String imageName, String registryBase, String registryCredentials) {
-    milestone(ordinal: 100)
+private void doUpload(String imageName, String registryBase, String registryCredentials, int milestoneOrdinal) {
+    milestone(ordinal: milestoneOrdinal)
 
     script {
         withCredentials([usernamePassword(
