@@ -43,6 +43,7 @@ void call(String k8sBaseDir, String imageName, String imageDigest, String giteaC
                     usernameVariable: "GIT_USERNAME",
                     passwordVariable: "GIT_PASSWORD"
             )]) {
+                sh "git config --global --add safe.directory \$(pwd)"
                 sh "git config --local user.email admin+jenkins@finn-thorben.me"
                 sh "git config --local user.name jenkins"
                 sh "git config --local credential.helper '!p() { echo username=\\$GIT_USERNAME; echo password=\\$GIT_PASSWORD; }; p'"
